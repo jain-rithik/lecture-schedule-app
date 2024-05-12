@@ -83,7 +83,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/lectures",
         element: <Lectures />,
-      },
+      }
     ],
   },
   {

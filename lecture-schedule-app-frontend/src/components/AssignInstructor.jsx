@@ -23,8 +23,7 @@ const AssignInstructor = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("ok")
-    console.log(course.current.value)
+    
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/instructor/${instructorId}`, {
       method: "PUT",
       headers: {

@@ -76,7 +76,7 @@ const InstructorList = () => {
   return (
     <div className='flex gap-5 p-3 m-3 flex-wrap'>
         {instructors?.map((instructor, index) => (
-            <Link to={"/instructor/" + instructor?._id}>
+            <Link to={"/instructor/" + instructor?._id} key={instructor._id}>
             <CardComponent key={index} name={instructor.name} image={instructor.image}/>
             </Link>
         ))}

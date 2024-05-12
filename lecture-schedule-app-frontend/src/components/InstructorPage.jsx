@@ -6,17 +6,17 @@ import { setUser } from "../utils/userSlice";
 const InstructorPage = () => {
   const { instructorId } = useParams();
   const navigate = useNavigate();
-  //   const [instructor, setInstructor] = useState();
+    const [instructor, setInstructor] = useState();
   const dispatch = useDispatch();
 
-  const instructor = useSelector((state) => state.userSlice);
+  const user = useSelector((store) => store.userSlice);
 
   //   const instructor = instructors?.find(
   //     (instructor) => instructor._id === instructorId
   //   );
 
   useEffect(() => {
-    console.log("add course called");
+  
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/${instructorId}`, {
       method: "GET",
       headers: {
@@ -26,9 +26,9 @@ const InstructorPage = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
-        // setInstructor(json?.success);
-        dispatch(setUser(json?.success));
+  
+        setInstructor(json?.success);
+        // dispatch(setUser(json?.success));
         // setInstructors(json?.success);
         // dispatch(setStoreInstructor(json?.success));
       })
@@ -60,7 +60,7 @@ const InstructorPage = () => {
           <div>
             {instructor.courses?.map((course) => {
               return (
-                <div>
+                <div key={course._id} className="border-b border-spacing-11 py-1">
                   <h3>Course Name: {course.name}</h3>
                   <p>Date: {course.date}</p>
                 </div>
@@ -68,7 +68,7 @@ const InstructorPage = () => {
             })}
           </div>
         </div>
-        {/* {instructor?.type === "admin" && ( */}
+        {user?.type === "admin" && (
           <div className="flex items-center justify-center pt-5">
             <Link to={"/instructor/" + instructorId + "/assign"}>
               <button className="px-5 bg-green-500 py-2 text-xl rounded-full hover:text-white">
@@ -76,7 +76,7 @@ const InstructorPage = () => {
               </button>
             </Link>
           </div>
-        {/* )} */}
+         )} 
       </div>
     </div>
   );

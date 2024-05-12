@@ -18,7 +18,7 @@ const AddInstructor = () => {
   // }
 
   const handleAdd = () => {
-    console.log("add course called");
+    
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/signup`, {
       method: "POST",
       headers: {
@@ -35,7 +35,7 @@ const AddInstructor = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        
         navigate("/instructor");
       })
       .catch((err) => {

@@ -1,13 +1,16 @@
 import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../utils/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
+  const dispatch = useDispatch();
 
   const handleAdd = () => {
-    console.log("add course called");
+    
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/login`, {
       method: "POST",
       headers: {
@@ -21,7 +24,23 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        
+        fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/${json.success}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            
+            dispatch(setUser(json?.success));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
         navigate(`/instructor/${json.success}`);
       })
       .catch((err) => {
