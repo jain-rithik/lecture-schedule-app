@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-item:hover {
+  border-radius: 15px;
+    box-shadow: 0 4px 18px #1c1c1c1f;
+}
