@@ -45,6 +45,6 @@ This project is a web application for managing lecture schedules. It allows user
     Available Scripts
     In the project directory, you can run:
 
-    npm start: Starts the development server.
-    npm run build: Builds the app for production.
-    npm test: Launches the test runner.
+- **npm start:** Starts the development server.
+- **npm run build:** Builds the app for production.
+- **npm test:** Launches the test runner.
