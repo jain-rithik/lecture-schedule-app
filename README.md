@@ -47,4 +47,21 @@ This project is a web application for managing lecture schedules. It allows user
 
 - **npm start:** Starts the development server.
 - **npm run build:** Builds the app for production.
-- **npm test:** Launches the test runner.
+
+### Routes
+
+- **User Routes:**
+  - POST /api/user/signup: Register a new user.
+  - POST /api/user/login: Log in a user.
+  - GET /api/user/logout: Log out a user.
+  - GET /api/users: Get all users.
+  - GET /api/user/:id: Get a specific user by ID.
+
+- **Instructor Routes:**
+  - PUT /api/instructor/:id: Add a course for an instructor. (Ensure user is logged in as an instructor)
+  
+- **Course Routes:**
+  - GET /api/course: Get all courses.
+  - POST /api/course: Create a new course.
+  - PUT /api/course/:id: Update a course by ID.
+  - DELETE /api/course/:id: Delete a course by ID.
