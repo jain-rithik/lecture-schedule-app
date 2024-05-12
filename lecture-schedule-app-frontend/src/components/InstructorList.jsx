@@ -3,6 +3,7 @@ import CardComponent from './CardComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { setStoreInstructor } from '../utils/instructorsSlice'
 import { Link } from 'react-router-dom'
+import Loader from './Loader'
 
 // const InstructorData = [
 //     {
@@ -72,6 +73,8 @@ const InstructorList = () => {
             console.log(err);
           });
       }, [courseList]);
+
+      if(!instructors) return <Loader />;
 
   return (
     <div className='flex gap-5 p-3 m-3 flex-wrap'>

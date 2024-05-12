@@ -3,6 +3,7 @@ import CardComponent from "./CardComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { setStoreCourses } from "../utils/coursesSlice";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 const CourseList = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const CourseList = () => {
       });
   },[courseList]);
 
-  if (!courses) return null;
+  if (!courses) return <Loader />;
 
   return (
     <div className="flex gap-5 p-3 m-3 flex-wrap">

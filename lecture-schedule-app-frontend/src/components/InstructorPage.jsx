@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { setUser } from "../utils/userSlice";
+import Loader from "./Loader";
 
 const InstructorPage = () => {
   const { instructorId } = useParams();
@@ -39,7 +40,7 @@ const InstructorPage = () => {
 
   if (!instructor) {
     // Handle the case where the course is not found
-    return <div>Instructor not found</div>;
+    return <div><Loader/></div>;
   }
 
   return (
