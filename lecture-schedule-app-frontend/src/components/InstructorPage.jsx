@@ -68,7 +68,7 @@ const InstructorPage = () => {
             })}
           </div>
         </div>
-        {instructor?.type === "admin" && (
+        {/* {instructor?.type === "admin" && ( */}
           <div className="flex items-center justify-center pt-5">
             <Link to={"/instructor/" + instructorId + "/assign"}>
               <button className="px-5 bg-green-500 py-2 text-xl rounded-full hover:text-white">
@@ -76,7 +76,7 @@ const InstructorPage = () => {
               </button>
             </Link>
           </div>
-        )}
+        {/* )} */}
       </div>
     </div>
   );
