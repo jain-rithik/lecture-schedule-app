@@ -34,7 +34,7 @@ const Head = () => {
   return (
     <div className="flex items-center justify-between border-b-2">
       <img className="w-28" src={Logo} alt="Logo" />
-      {instructor?.type === "admin" && (
+      {/* {instructor?.type === "admin" && ( */}
         <ul className="flex items-center gap-9 text-xl font-semibold uppercase cursor-pointer">
           <Link to={"/instructor"}>
             <li>Instructors</li>
@@ -46,7 +46,7 @@ const Head = () => {
             <li>Lectures</li>
           </Link>
         </ul>
-      )}
+      {/* )} */}
       {!instructor ? (
         <Link
           className="px-5 bg-green-500 mx-5 py-3 rounded-full hover:text-white"
