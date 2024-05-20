@@ -33,7 +33,7 @@ const Lectures = () => {
 
                 <div>
                   {instructor.courses?.map((course) => (
-                    <div className="border-b border-black border-spacing-2">
+                    <div className="border-b border-black border-spacing-2" key={course._id}>
                       <h3>Course Name: {course.name}</h3>
                       <p>Date: {course.date}</p>
                     </div>

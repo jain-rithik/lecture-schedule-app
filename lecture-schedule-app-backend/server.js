@@ -12,9 +12,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const session = require("express-session");
 const { wrapasync } = require("./wrapasync");
-const {storage} = require("./cloudConfig.js");
+const { storage } = require("./cloudConfig.js");
 const multer = require("multer");
-const upload = multer({ storage })
+const upload = multer({ storage });
 
 // use static authenticate method of model in LocalStrategy
 passport.use(new LocalStrategy(User.authenticate()));
@@ -53,7 +53,8 @@ async function main() {
 
 // user route ----------------------------------------------------------------
 app.post(
-  "/api/user/signup",upload.single('image'),
+  "/api/user/signup",
+  upload.single("image"),
   wrapasync(async (req, res) => {
     try {
       console.log("post check");
@@ -81,7 +82,7 @@ app.post(
   "/api/user/login",
   passport.authenticate("local", { failureRedirect: "/" }),
   function (req, res) {
-	console.log("Login successful")
+    console.log("Login successful");
     // console.log("Login user", req.user);
     res.json({ success: req.user._id });
   }
@@ -109,7 +110,7 @@ app.get(
   "/api/user/:id",
   wrapasync(async (req, res) => {
     const allUsers = await User.findById(req.params.id);
-   
+
     res.json({ success: allUsers });
   })
 );
@@ -126,10 +127,10 @@ app.put(
         .status(400)
         .json({ error: "User already has a course assigned on this date" });
     }
-	
+
     allUsers.courses.push({ name: req.body.course, date: req.body.date });
     const addedcourse = await allUsers.save();
-    
+
     res.json({ success: "allUsers" });
   })
 );
@@ -143,29 +144,47 @@ app.get(
   })
 );
 app.post(
-  "/api/course", upload.single('image'),
+  "/api/course",
+  upload.single("image"),
   wrapasync(async (req, res) => {
     const image = { url: req.file.path, filename: req.file.filename };
     const newCourse = new Course({
       name: req.body.name,
       level: req.body.level,
       description: req.body.description,
-      image: image
+      image: image,
     });
     const course = await newCourse.save();
-  
+
     res.json({ success: course });
   })
 );
 
 app.put(
   "/api/course/:id",
+  upload.single("image"),
   wrapasync(async (req, res) => {
-    const updateCourse = await Course.findByIdAndUpdate(
-      req.params.id,
-      req.body
-    );
-    res.json({ success: updateCourse });
+    try {
+      const updateData = {
+        name: req.body.name,
+        level: req.body.level,
+        description: req.body.description,
+      };
+
+      if (req.file) {
+        updateData.image = { url: req.file.path, filename: req.file.filename };
+      }
+
+      const updatedCourse = await Course.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true }
+      );
+
+      res.json({ success: updatedCourse });
+    } catch (e) {
+      res.json({ error: e.message });
+    }
   })
 );
 

@@ -50,12 +50,11 @@ import Loader from './Loader'
 
 const InstructorList = () => {
     const dispatch = useDispatch();
-    const [courseList, setCourseList] = useState([]);
 
     const instructors = useSelector(store => store.instructorSlice);
 
     useEffect(() => {
-        console.log("add course called");
+        // console.log("add course called");
         fetch(`${process.env.REACT_APP_BACKENDURL}/api/users`, {
           method: "GET",
           headers: {
@@ -65,14 +64,14 @@ const InstructorList = () => {
         })
           .then((res) => res.json())
           .then((json) => {
-            console.log(json);
+            // console.log(json);
             // setInstructors(json?.success);
             dispatch(setStoreInstructor(json?.success));
           })
           .catch((err) => {
             console.log(err);
           });
-      }, [courseList]);
+      }, []);
 
       if(!instructors) return <Loader />;
 

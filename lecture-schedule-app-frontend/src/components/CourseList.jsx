@@ -12,7 +12,7 @@ const CourseList = () => {
   const courses = useSelector(store => store.courseSlice);
 
   useEffect(() => {
-    console.log("add course called");
+    // console.log("add course called");
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/course`, {
       method: "GET",
       headers: {
@@ -34,7 +34,7 @@ const CourseList = () => {
   return (
     <div className="flex gap-5 p-3 m-3 flex-wrap">
       {courses?.map((course) => (
-        <Link to={"/course/" + course._id}>
+        <Link key={course?._id} to={"/course/" + course._id}>
         <CardComponent
           key={course._id}
           name={course.name}

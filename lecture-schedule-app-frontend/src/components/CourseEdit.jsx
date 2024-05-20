@@ -21,19 +21,15 @@ const CourseEdit = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const updatedCourse = {
-      name: nameRef.current.value,
-      level: levelRef.current.value,
-      description: descriptionRef.current.value,
-      image: imageRef.current.value,
-    };
+    const formData = new FormData();
+    formData.append("name", nameRef.current.value);
+    formData.append("level", levelRef.current.value);
+    formData.append("description", descriptionRef.current.value);
+    formData.append("image", imageRef.current.files[0]);
 
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/course/${courseId}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedCourse),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -47,7 +43,7 @@ const CourseEdit = () => {
     <div className="flex justify-center pt-10">
       <div className="flex flex-col w-full items-center">
         <h2 className="font-bold text-2xl pb-5 m-2">Edit Course</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-1/2">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="flex flex-col gap-5 w-1/2">
           <label className="flex gap-2 items-center">
             Course Name:
             <input
@@ -79,8 +75,7 @@ const CourseEdit = () => {
           <label className="flex gap-2 items-center">
             Image:
             <input
-              type="text"
-              defaultValue={course.image}
+              type="file"
               ref={imageRef}
               className="border w-full p-1"
             />
