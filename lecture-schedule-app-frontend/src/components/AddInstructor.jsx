@@ -10,28 +10,22 @@ const AddInstructor = () => {
   const image = useRef();
   const password = useRef();
 
-  // const handleAdd = () => {
-  //     console.log(name?.current?.value);
-  //     console.log(level?.current?.value);
-  //     console.log(description?.current?.value);
-  //     console.log(image?.current?.value);
-  // }
 
   const handleAdd = () => {
+
+    const formData = new FormData();
+    formData.append("name", name.current.value);
+    formData.append("email", email.current.value);
+    formData.append("username", username.current.value);
+    formData.append("password", password.current.value);
+    formData.append("image", image.current.files[0]);
     
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/signup`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({
-        name: name?.current.value,
-        email: email?.current.value,
-        username: username?.current.value,
-        password: password?.current.value,
-        image: image?.current.value,
-      }),
+      body: formData
     })
       .then((res) => res.json())
       .then((json) => {
@@ -48,6 +42,7 @@ const AddInstructor = () => {
       <form
         method="post"
         action=""
+        encType="multipart/form-data"
         className="flex flex-col gap-5 w-full items-center pt-10"
         onSubmit={(e) => e.preventDefault()}
       >
@@ -75,7 +70,7 @@ const AddInstructor = () => {
         <input
           ref={image}
           className="p-3 border border-gray-500 rounded-md w-1/2"
-          type="url"
+          type="file"
           name="image"
           placeholder="Enter Image URL"
         />

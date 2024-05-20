@@ -47,7 +47,7 @@ const Head = () => {
           </Link>
         </ul>
        )} 
-      {instructor ? (
+      {!instructor ? (
         <Link
           className="px-5 bg-green-500 mx-5 py-3 rounded-full hover:text-white"
           to={"/login"}

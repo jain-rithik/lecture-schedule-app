@@ -12,6 +12,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const session = require("express-session");
 const { wrapasync } = require("./wrapasync");
+const {storage} = require("./cloudConfig.js");
+const multer = require("multer");
+const upload = multer({ storage })
 
 // use static authenticate method of model in LocalStrategy
 passport.use(new LocalStrategy(User.authenticate()));
@@ -20,6 +23,13 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(cors());
+
+app.use("*",(req,res, next) => {
+  console.log("json upar");
+  console.log(req.body);
+next();
+})
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -49,21 +59,25 @@ async function main() {
 
 // user route ----------------------------------------------------------------
 app.post(
-  "/api/user/signup",
+  "/api/user/signup",upload.single('image'),
   wrapasync(async (req, res) => {
     try {
-      let { name, username, email, password, image } = req.body;
+      console.log("post check");
+      console.log(req.body); // Log the received data
+      console.log(req.file); // Log the received file
+
+      const { name, username, email, password } = req.body;
+      const image = { url: req.file.path, filename: req.file.filename };
       const newUser = new User({ name, email, username, image });
       const registeredUser = await User.register(newUser, password);
+      console.log("Registered user", registeredUser);
       req.login(registeredUser, (err) => {
         if (err) {
           return next(err);
         }
-        console.log("Registered user", registeredUser);
-        res.json({ success: newUser });
+        res.json({ success: registeredUser });
       });
     } catch (e) {
-      console.log(e.message);
       res.json({ error: e.message });
     }
   })
@@ -74,7 +88,7 @@ app.post(
   passport.authenticate("local", { failureRedirect: "/" }),
   function (req, res) {
 	console.log("Login successful")
-    console.log("Login user", req.user);
+    // console.log("Login user", req.user);
     res.json({ success: req.user._id });
   }
 );
@@ -93,7 +107,6 @@ app.get(
   "/api/users",
   wrapasync(async (req, res) => {
     const allUsers = await User.find();
-    console.log(allUsers);
     res.json({ success: allUsers });
   })
 );
@@ -102,7 +115,7 @@ app.get(
   "/api/user/:id",
   wrapasync(async (req, res) => {
     const allUsers = await User.findById(req.params.id);
-    console.log(allUsers);
+   
     res.json({ success: allUsers });
   })
 );
@@ -122,7 +135,7 @@ app.put(
 	
     allUsers.courses.push({ name: req.body.course, date: req.body.date });
     const addedcourse = await allUsers.save();
-    console.log(addedcourse);
+    
     res.json({ success: "allUsers" });
   })
 );
@@ -136,17 +149,17 @@ app.get(
   })
 );
 app.post(
-  "/api/course",
+  "/api/course", upload.single('image'),
   wrapasync(async (req, res) => {
-    console.log("course added");
-    const newTodo = new Course({
+    const image = { url: req.file.path, filename: req.file.filename };
+    const newCourse = new Course({
       name: req.body.name,
       level: req.body.level,
       description: req.body.description,
-      image: req.body.image,
+      image: image
     });
-    const course = await newTodo.save();
-    console.log(course);
+    const course = await newCourse.save();
+  
     res.json({ success: course });
   })
 );

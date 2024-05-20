@@ -15,9 +15,9 @@ const courseSchema = new Schema({
     required: true,
   },
   image: {
-    type: String,
-    required: true,
-  },
+    url: String,
+    filename: String,
+},
   lectures: Array,
 });
 

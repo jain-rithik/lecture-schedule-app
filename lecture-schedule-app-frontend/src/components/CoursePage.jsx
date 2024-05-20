@@ -37,7 +37,7 @@ const CoursePage = () => {
   return (
     <div className='flex items-center justify-center pt-10'>
         <div className='p-10 border-2 w-3/4 '>
-            <img className='w-96 rounded-lg' src={course.image} alt="Course" />
+            <img className='w-96 rounded-lg' src={course.image.url} alt="Course" />
             <h1 className='pl-2 text-2xl font-bold'>Course Name: {course.name}</h1>
             <p className='pl-2 text-2xl font-semibold'>Level: {course.level}</p>
             <p className='pl-2 text-xl'>Description: {course.description}</p>

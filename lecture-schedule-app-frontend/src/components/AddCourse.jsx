@@ -9,30 +9,22 @@ const AddCourse = () => {
   const description = useRef();
   const image = useRef();
 
-  // const handleAdd = () => {
-  //     console.log(name?.current?.value);
-  //     console.log(level?.current?.value);
-  //     console.log(description?.current?.value);
-  //     console.log(image?.current?.value);
-  // }
-
   const handleAdd = () => {
+    const formData = new FormData();
+    formData.append("name", name.current.value);
+    formData.append("level", level.current.value);
+    formData.append("description", description.current.value);
+    formData.append("image", image.current.files[0]);
+
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/course`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({
-        name: name?.current.value,
-        level: level?.current.value,
-        description: description?.current.value,
-        image: image?.current.value,
-      }),
+      body: formData,
     })
       .then((res) => res.json())
       .then((json) => {
-        
         navigate("/course");
       })
       .catch((err) => {
@@ -45,6 +37,7 @@ const AddCourse = () => {
       <form
         method="post"
         action=""
+        encType="multipart/form-data"
         className="flex flex-col gap-5 w-full items-center pt-10"
         onSubmit={(e) => e.preventDefault()}
       >
@@ -72,7 +65,7 @@ const AddCourse = () => {
         <input
           ref={image}
           className="p-3 border border-gray-500 rounded-md w-1/2"
-          type="text"
+          type="file"
           name="image"
           placeholder="Image URL"
         />

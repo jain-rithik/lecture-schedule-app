@@ -13,9 +13,9 @@ const userSchema = new Schema({
     required: true,
   },
   image: {
-    type: String,
-    required: true,
-  },
+    url: String,
+    filename: String,
+},
   type: {
     type: String,
     default: "instructor", // admin

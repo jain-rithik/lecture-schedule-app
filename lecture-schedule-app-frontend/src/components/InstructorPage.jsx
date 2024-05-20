@@ -7,7 +7,7 @@ import Loader from "./Loader";
 const InstructorPage = () => {
   const { instructorId } = useParams();
   const navigate = useNavigate();
-    const [instructor, setInstructor] = useState();
+  const [instructor, setInstructor] = useState();
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.userSlice);
@@ -17,7 +17,6 @@ const InstructorPage = () => {
   //   );
 
   useEffect(() => {
-  
     fetch(`${process.env.REACT_APP_BACKENDURL}/api/user/${instructorId}`, {
       method: "GET",
       headers: {
@@ -27,7 +26,6 @@ const InstructorPage = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-  
         setInstructor(json?.success);
         // dispatch(setUser(json?.success));
         // setInstructors(json?.success);
@@ -40,7 +38,11 @@ const InstructorPage = () => {
 
   if (!instructor) {
     // Handle the case where the course is not found
-    return <div><Loader/></div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -50,7 +52,7 @@ const InstructorPage = () => {
           <div>
             <img
               className="w-96 rounded-lg"
-              src={instructor.image}
+              src={instructor.image.url}
               alt="Instructor"
             />
             <h1 className="pl-2 text-2xl font-bold">
@@ -61,7 +63,10 @@ const InstructorPage = () => {
           <div>
             {instructor.courses?.map((course) => {
               return (
-                <div key={course._id} className="border-b border-spacing-11 py-1">
+                <div
+                  key={course._id}
+                  className="border-b border-spacing-11 py-1"
+                >
                   <h3>Course Name: {course.name}</h3>
                   <p>Date: {course.date}</p>
                 </div>
@@ -69,7 +74,7 @@ const InstructorPage = () => {
             })}
           </div>
         </div>
-        {user?.type === "admin" && (
+        {user?.type === "admin" && user?._id !== instructorId ? (
           <div className="flex items-center justify-center pt-5">
             <Link to={"/instructor/" + instructorId + "/assign"}>
               <button className="px-5 bg-green-500 py-2 text-xl rounded-full hover:text-white">
@@ -77,7 +82,7 @@ const InstructorPage = () => {
               </button>
             </Link>
           </div>
-         )} 
+        ) : null}
       </div>
     </div>
   );
