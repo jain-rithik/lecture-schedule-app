@@ -2,6 +2,10 @@
 
 This project is a web application for managing lecture schedules. It allows users to sign up, log in, schedule lectures, and manage course details.
 
+# Admin Login Details
+- username: admin
+- password: admin123
+
 ## Features
 
 - **User Authentication:** Users can sign up, log in, and log out securely.
